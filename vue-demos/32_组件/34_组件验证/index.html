@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../../vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <my-cmp :list="list" ></my-cmp>
+  </div>
+
+  <script>
+    Vue.component('my-cmp', {
+      // props:['list'],
+      props: {
+        list: {
+          type: Array,
+          default(){
+            return [
+              {name: 'aa'},
+              {name: 'bb'}
+            ]
+          },
+          required: true,
+          validator(prop){
+            console.log(prop)
+            return prop.length > 3
+          }
+        }
+        
+      },
+      
+      template:`
+       <ul>
+        <li v-for="person in list" 
+          :key="person.name">{{person.name}}</li>
+        </ul>
+      `
+    });
+
+    const vm = new Vue({
+      el:'#app',
+      data:{
+        list:[
+          {name: 'tom'},
+          {name: 'jerry'}
+        ]
+      }
+    })
+  </script>
+</body>
+</html>

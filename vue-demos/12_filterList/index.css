@@ -1,0 +1,78 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+ul, li{
+  list-style: none;
+}
+
+.box {
+  width: 550px;
+  margin:80px auto;
+  padding: 5px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #666;
+  
+}
+/* flex */
+.box .goods{
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  text-indent: 2em;
+}
+.box .goods:last-child{
+  border-bottom: none;
+}
+.goods .title{
+
+}
+.goods .type-list{
+  display: flex;
+  text-indent: 0;
+}
+.type-list .type{
+  margin: 15px 7px;
+  padding: 5px 6px;
+  border-radius: 3px;
+  color: #039;
+  cursor: pointer;
+}
+.type-list .type:hover{
+  color: #f60;
+  background-color: #f3edc2;
+}
+.type-list .type.active{
+  color: #fff;
+  background-color: #f60;
+}
+.box .choose-type{
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+}
+.choose-type .no-goods{
+  color: #999;
+  font-weight: normal;
+  padding: 20px;
+}
+.choose-type .filter-list{
+  display: flex;
+  font-weight: normal;
+}
+.filter-list li{
+  margin: 15px 10px;
+  padding: 5px 8px;
+  border-radius: 3px;
+  color: #fff;
+  background-color: #f60;
+  cursor: pointer;
+}
+.filter-list li .btn-delete{
+  opacity: .5;
+}
+.filter-list li .btn-delete:hover{
+  opacity: 1;
+}

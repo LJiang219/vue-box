@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../../vue.js"></script>
+</head>
+<body>
+  <!-- 列表, 点击item上button,放大页面文字 -->
+  <div id="app">
+    <posts-list 
+      :posts="postList" />
+    <!-- <ul>
+      <li>
+        <div class="title">titel</div>
+        <button>enlarge font</button>
+        <div class="cont">content</div>
+      </li>
+    </ul> -->
+  </div>
+
+  <script>
+    Vue.component('posts-list', {
+      props:['posts'],
+      created:function(){
+        // console.log(this.posts); //this-> 当前组件posts-list
+      },
+      template:`
+        <ul>
+          <li v-for="item in posts" :key="item.id">
+            <div class="title">{{item.title}}</div>
+            <button>enlarge font</button>
+            <div class="cont">{{item.content}}</div>
+          </li>
+        </ul>
+      `
+    })
+    
+ 
+    const vm = new Vue({
+      el: '#app',
+      data:{
+        fontSizeVal:1,
+        postList:[
+          { title: '標題', content: '内容内容内容', id: 0 },
+          { title: '標題1', content: '内容内容内容', id: 1 },
+          { title: '標題2', content: '内容内容内容', id: 2 },
+          { title: '標題3', content: '内容内容内容', id: 3 },
+        ]
+
+      },
+      methods: {
+
+      }
+    })
+  </script>
+</body>
+</html>

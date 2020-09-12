@@ -1,0 +1,127 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+ul, li{
+  list-style:none;
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  background-color: #f80;
+}
+
+button{
+  outline: none;
+  border: none;
+}
+
+/* =====start===== */
+
+.course-box{
+  width: 600px;
+  margin: 20px auto 0;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+}
+
+.course-box .title-box{
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.title-box .title-chk{
+  margin-right: 12px;
+}
+.title-box .title-txt{
+  font-weight: bold;
+}
+
+.course-box .course-list{
+
+}
+.course-list li{
+  display: flex;
+  /* align-items: center; */
+ 
+  margin-bottom: 15px;
+}
+.course-list li .item-chk{
+  margin-right: 12px;
+  transform: translateY(32px);
+}
+.course-list li .poster{
+  width: 80px;
+  height: 80px;
+  margin-right: 15px;
+}
+.course-list li .item-detail{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+.item-detail .item-title{
+  font-size: 14px;
+  margin-top: 8px;
+}
+.item-detail .item-bot{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.item-detail .item-bot .item-price{
+  color: #f80;
+  height: 30px;
+  line-height: 30px;
+}
+.item-detail .item-bot .item-btns{
+  display: inline-flex;
+  width: 100px;
+  height: 30px;
+  line-height: 30px;
+  cursor: pointer;
+}
+.item-bot .item-btns .btn-minus,
+.item-bot .item-btns .btn-add{
+  
+  width: 30px;
+  text-align: center;
+  border: 1px solid #eee;
+}
+.item-bot .item-btns .item-counter{
+  width: 40px;
+  text-align: center;
+  border: 1px solid #eee;
+}
+
+.course-box .sum-box{
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+.sum-box .sum-l{
+  display: inline-flex;
+  align-items: center;
+}
+.sum-box .sum-l .sum-chk{
+  margin-right: 12px;
+}
+
+.sum-box .sum-r{
+
+}
+.sum-box .sum-r .sum-price{
+  color: #f80;
+  margin-right: 10px;
+}
+.sum-box .sum-r .btn-sum{
+  width: 70px;
+  height: 35px;
+  border-radius: 35px;
+  background-color: #f80;
+  color: #fff;
+}

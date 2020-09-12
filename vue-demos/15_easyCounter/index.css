@@ -1,0 +1,34 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+button{
+  outline: none;
+  border: none;
+}
+.counter-box{
+  padding: 20px;
+}
+.counter-box input[type=text]{
+  border: 1px solid #333;
+  width: 200px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 4px;
+  padding-left: 15px;
+}
+.counter-box .sel{
+  width: 60px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 16px;
+  text-align: center;
+  padding: 0 10px;
+}
+.counter-box .btn-res{
+  border: 1px solid #333;
+  width: 50px;
+  height: 42px;
+  line-height: 40px;
+  font-size: 16px;
+}

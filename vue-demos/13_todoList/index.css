@@ -1,0 +1,106 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+ul, li{
+  margin: 0;
+  list-style:none;
+}
+
+button{
+  border: none;
+}
+
+/* ====start====== */
+.wrap{
+  
+  width: 800px;
+  margin: 80px auto;
+  
+}
+.header{
+  height: 60px;
+  line-height: 60px;
+  background-color: #333;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+ 
+}
+.header .left{
+  font-weight: bold;
+  font-size: 20px;
+  color: #fff;
+}
+.header .right{
+
+}
+.header .right input{
+  outline: none;
+  border: none;
+  width: 300px;
+  height: 36px;
+  line-height: 36px;
+  border-radius: 5px;
+  padding-left: 15px;
+}
+.header .right .btn-add{
+  width: 90px;
+  height: 36px;
+  line-height: 36px;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+.container{
+  background-color: #ddd;
+  padding: 15px 20px;
+}
+.container .box{
+  margin-bottom: 20px;
+}
+.box .title{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.title .title-txt{
+  font-size: 18px;
+  font-weight: bold;
+}
+.title .counter{
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #f80;
+  color: #fff;
+  text-align: center;
+}
+
+.box .list{
+
+}
+.list li{
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  height: 40px;
+  line-height: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.list li .chk{
+  
+}
+.list li .detail{
+
+}
+.list li .btn-delete{
+  float: right;
+  width: 90px;
+  height: 32px;
+  font-size: 14px;
+  margin-top: 3px;
+}
+

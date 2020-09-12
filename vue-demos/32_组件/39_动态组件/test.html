@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../../vue.js"></script>
+</head>
+<body>
+  <!-- 不用 <component :is /> 如何实现 切换组件 -->
+  <div id="app">
+    <ul>
+      <li 
+        v-for="page in pages"
+        :key="page.id"
+        @click="handleClick(page)"
+      >{{page.name}}</li>
+    </ul>
+
+    <div >
+      <div> {{pages[pageIdx].content}}</div>
+    </div>
+  </div>
+
+  <script>
+    const vm = new Vue({
+      el: '#app',
+      data:{
+        pageIdx: '0',
+        pages: [
+          {name: 'Home', id: '0', content: 'Home component'},
+          {name: 'Posts', id: '1', content: 'Posts component'},
+          {name: 'Archive', id: '2', content: 'Archive component'},
+        ]
+      },
+      methods:{
+        handleClick(page){
+          this.pageIdx = page.id;
+        }
+      }
+    })
+  </script>
+</body>
+</html>

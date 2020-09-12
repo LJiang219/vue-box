@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../vue.js"></script>
+  <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+  <div id="app">
+    <div class="survey-box">
+      <div class="left">
+        <div class="title">提问区</div>
+        <div class="ask-list">
+          <div class="item">
+            <div class="ask-title">1.what's your name</div>
+            <input type="text" v-model="name">
+          </div>
+          <div class="item">
+            <div class="ask-title">2.what's your gender</div>
+            <input type="radio" value="male" v-model="sexVal"> male
+            <input type="radio" value="female" v-model="sexVal"> female
+            <input type="radio" value="secret" v-model="sexVal"> secret
+          </div>
+          <div class="item">
+            <div class="ask-title">3.what's your hobbies</div>
+            <input type="checkbox" value="reading" v-model="hobbies"> reading
+            <input type="checkbox" value="swimming" v-model="hobbies">swimming
+            <input type="checkbox" value="jogging" v-model="hobbies"> jogging
+            <input type="checkbox" value="movies" v-model="hobbies"> movies
+            <input type="checkbox" value="music" v-model="hobbies"> music
+          </div>
+          <div class="item">
+            <div class="ask-title">4.please introduce yourself</div>
+            <input type="textarea" v-model="words">
+          </div>
+        </div>
+      </div>
+      <div class="right">
+        <div class="title">回答展示区</div>
+        <div class="answer-list">
+          <div class="item">
+            <div class="answer-title">1.what's your name</div>
+            <div>{{name}}</div>
+          </div>
+          <div class="item">
+            <div class="answer-title">2.what's your gender</div>
+            <div>{{sexVal}}</div>
+          </div>
+          <div class="item">
+            <div class="answer-title">3.what's your hobbies</div>
+            <div>{{hobbies.join(',')}}</div>
+          </div>
+          <div class="item">
+            <div class="answer-title">4.please introduce yourself</div>
+            <div>{{words}}</div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const vm = new Vue({
+      el: '#app',
+      data:{
+        name:'',
+        sexVal: 'female',
+        hobbies:[],
+        words: ''
+      },
+      methods: {
+
+      }
+    })
+  </script>
+</body>
+</html>

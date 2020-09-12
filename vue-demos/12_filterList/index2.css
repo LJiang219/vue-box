@@ -1,0 +1,86 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+ul, li{
+  list-style: none;
+}
+.clearfix::after{
+  content: "";
+  display: block;
+  clear: both;
+
+}
+/* ===start====== */
+.box {
+  width: 550px;
+  margin:80px auto;
+  padding: 5px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #666;
+}
+/* no flex: 实现左右布局 */
+.box .goods{
+  border-bottom: 1px solid #ddd;
+  text-indent: 2em;
+}
+.goods .title{
+  position: relative;
+  float: left;
+  height: 51px;
+  line-height: 51px;
+}
+.goods .type-list{
+  float: left;
+  padding-left: 10px;
+  text-indent: 0;
+
+}
+.type-list .type{
+  float: left;
+  margin: 12px 8px;
+  padding: 5px 6px;
+  border-radius: 3px;
+  color: #039;
+  cursor: pointer;
+}
+.type-list .type:hover{
+  color: #f60;
+  background-color: #f3edc2;
+}
+.type-list .type.active{
+  color: #fff;
+  background-color: #f60;
+}
+
+.box .choose-type{
+  
+}
+.choose-type .title {
+  float: left;
+  height: 57px;
+  line-height: 57px;
+}
+.choose-type .no-goods{
+  float: left;
+  padding-left: 10px;
+  height: 57px;
+  line-height: 57px;
+  display: none;
+}
+.choose-type .filter-list{
+  float: left;
+  padding-left: 10px;
+}
+.filter-list li{
+  float: left;
+  margin: 15px 10px;
+  padding: 5px 8px;
+  border-radius: 3px;
+  color: #fff;
+  background-color: #f60;
+  cursor: pointer;
+  
+}

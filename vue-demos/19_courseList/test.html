@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../vue.js"></script>
+  <link rel="stylesheet" href="./test.css">
+  <script src="./datas/courseData.js"></script>
+</head>
+<body>
+  <div id="app">
+
+    <div class="course-box">
+      <div class="title">
+        <input type="checkbox" class="title-chk" v-model="chkAll"> 
+        <div class="title-txt">web前端课程</div>
+      </div>
+      <ul class="course-list">
+        <li class="item" v-for="(item, idx) in courseList" :key="item.id">
+          <input type="checkbox" class="item-chk" v-model="item.check">
+         
+          <div class="poster">
+            <img :src="item.poster" :alt="item.name">
+          </div>
+          
+          <div class="right">
+            
+            <div class="course-name">{{item.title}}</div>
+            <div class="item-bot">
+              <div class="course-price">{{item.price}}</div>
+              <div class="item-btns">
+                <span class="btn-minus" @click="counteNum(item, '-')">-</span>
+                <input type="text" class="item-count" v-model="item.cart" >
+                <span class="btn-add" @click="counteNum(item, '+')">+</span>
+              </div>
+            </div>
+          </div>
+  
+        </li>
+      </ul>
+
+      <div class="sum-box">
+        <div class="sum-left">
+          <input type="checkbox" class="sum-chk" v-model="chkAll"> 
+          <div class="title-txt">全选</div>
+        </div>
+       
+        <div class="sum-right">
+          <span>合计:</span>
+          <span class="sum-price">$ {{sum}}</span>
+          <button class="btn-sum">结算<span class="sum-count">({{totalNum}})</span></button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const list = courseList;
+
+    const vm = new Vue({
+      el: "#app",
+      data: {
+        courseList: list
+
+      },
+      methods: {
+      
+        counteNum: function(course, type){
+          let cartNum = course.cart;
+          if(type === '-'){
+            if(cartNum === 1){
+              alert("不能再减少了!!")
+            }else{
+              course.cart --;
+            }
+          }else{
+            course.cart++
+          }
+        },
+      },
+      computed: {
+        //获取选择的项目列表
+        selectedList: function(){
+          return this.courseList.filter(item => item.check)
+        },
+        //计算总价值
+        sum: function(){
+          let total = 0;
+          this.courseList.forEach(item => {
+            if(item.check){
+              total += item.price * item.cart;
+            }
+            
+          })
+          return total;
+        },
+        
+        //计算选择项目的个数
+        totalNum: function(){
+          return this.selectedList.length;
+        },
+
+        chkAll:{
+          get(){
+            return this.courseList.every(item => item.check)
+          },
+          set(val){
+            this.courseList.map(item => item.check=val)
+          }
+        }
+      }
+    })
+    list.forEach(item => {
+      vm.$set(item, 'check', false) ;
+    })
+    // console.log(list)
+  </script>
+</body>
+</html>

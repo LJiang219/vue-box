@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../../vue.js"></script>
+</head>
+<body>
+  <!-- 列表, 点击item上button,放大页面文字 -->
+  <div id="app">
+    <ul :style="{fontSize: postFontSize+'em'}">
+      <post-item 
+        v-for="item in postList"
+        :post="item" 
+        :key="item.id" 
+        @enlarge-font="handleEnlarge"
+    />
+    </ul>
+  
+  </div>
+
+  <script>
+    Vue.component('post-item', {
+      props:['post'],
+      // created:function(){
+      //   console.log(this.post); //this-> 当前组件posts-list
+      // },
+    
+      template:`
+          <li>
+            <div class="title">{{post.title}}</div>
+            <button @click="$emit('enlarge-font', 0.2)">enlarge font</button>
+            <div class="cont">{{post.content}}</div>
+          </li>
+      `
+    })
+    
+ 
+    const vm = new Vue({
+      el: '#app',
+      data:{
+        postFontSize:1,
+        postList:[
+          { title: '標題', content: '内容内容内容', id: 0 },
+          { title: '標題1', content: '内容内容内容', id: 1 },
+          { title: '標題2', content: '内容内容内容', id: 2 },
+          { title: '標題3', content: '内容内容内容', id: 3 },
+        ]
+
+      },
+      methods:{
+        handleEnlarge:function(e){
+          // console.log(e); //0.2
+          this.postFontSize += e;
+        }
+      },
+    })
+  </script>
+</body>
+</html>

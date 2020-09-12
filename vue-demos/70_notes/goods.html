@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>商品和库存管理</title>
+  <script src="../vue.js"></script>
+  <style>
+    .item{
+      display: flex;
+    }
+    .item .name{
+      margin-right: 20px;
+    }
+    .item .num{
+      margin:0 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h2>商品和库存管理</h2>
+    <div class="center">
+      <div class="add-bar">
+        <label>商品: <input type="text" v-model="good.name"></label>
+        <label>个数:<input type="number" min="0" v-model.number="good.num"> </label>
+        <button @click="addGood(good)">添加</button>
+      </div>
+      <ul class="goods-list">
+        <li v-for="(g, idx) in goods" :key="g.name" class="item">
+          <div class="name">{{g.name}}</div>
+          <div class="num">
+            <button v-if="g.num>0" class="btn-min" @click="getNum(g,'-')">-</button>
+            <i v-else>售罄</i>
+            <span class="num" :num="g.num">{{g.num}}</span>
+            <button class="bt-add" @click="getNum(g,'+')">+</button>
+          </div>
+          <input type="number" min="0" class="ip-num" v-model="g.num">
+          <button @click="delGood(idx)">删除</button>
+        </li>
+      </ul>
+     
+    </div>
+  </div>
+
+  <script>
+    const vm = new Vue({
+      el: "#app",
+      data:{
+        num: 0,
+        good:{
+          name:'',
+          num: 0
+        },
+        goods:[
+          {name:'小米手机', num: 0 },
+          {name:'iphone6',  num: 10 },
+          {name:'小度音响',  num: 10 },
+        ]
+      },
+      methods: {
+        addGood(g){
+          // g.id = Math.ceil(Math.random()*10);
+          // this.$set(g, 'id', Math.ceil(Math.random()*10))
+          const tmp = this.goods;
+
+          // tmp.map(item => {
+          //   console.log(item)
+          //   if(item.name == g.name){
+          //     item.num += g.num;
+              
+          //   }else{
+          //     g.id = Math.ceil(Math.random()*10)
+          //   }
+          // });
+          // this.goods = list;
+
+          this.good = {
+            name: '',
+            num:0
+          }
+          
+        },
+
+        delGood(idx){
+          // const tmp = this.goods;
+          // const filterList = tmp.filter(item => item.id!==g.id)
+          // this.goods = filterList;
+          this.goods.splice(idx, 1)
+        },
+        getNum(g, type){
+          if(type == '-'){
+            if(g.num == 0){
+              g.num = 0
+            }else{
+              g.num--
+            }
+          }else if(type == '+'){
+            g.num++
+          }
+        }
+
+      }
+    })
+
+    vm.goods.forEach(item => vm.$set(item, "id", Math.ceil(Math.random()*10)))
+  </script>
+</body>
+</html>

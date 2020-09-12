@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>组件切换</title>
+  <script src="../../vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <div 
+      v-for="page in pages"
+      :key="page.id"
+      @click=""
+    >{{page.title}}</div>
+
+
+    <div>content1</div>
+  </div>
+
+  <script>
+    Vue.component('tab-list', {
+      
+    })
+
+    const vm = new Vue({
+      el: '#app',
+      data:{
+        pages: [
+          {title: 'Home', content:'Home component', id: '0'},
+          {title: 'Tab2', content:'Tab2-content', id: '1'},
+
+        ]
+      },
+      methods:{
+
+      }
+    })
+  </script>
+</body>
+</html>

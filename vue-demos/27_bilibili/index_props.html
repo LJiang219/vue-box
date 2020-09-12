@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./assets/index.css">
+  <script src="./axios.js"></script>
+  <script src="./vue.js"></script>
+</head>
+<body>
+  <!-- video-list -->
+  <div id="app">
+    <video-list :video-list="videoList"></video-list>
+  </div>
+
+  <script>
+    // Vue.component('video-list', {
+    //   props: ['videoList'],
+    //   template:`
+    //     <ul class="video-list clearfix">
+    //       <video-item
+    //         v-for="video in videoList"
+    //         :poster="video.poster"
+    //         :play="video.play"
+    //         :rank="video.rank"
+    //         :title="video.title"
+    //       ></video-item>
+    //     </ul>
+
+    //   `
+    // })
+
+    Vue.component('video-list', {
+      props: ['videoList'],
+      template: `
+        <ul class="video-list clearfix" >
+            <video-item 
+              v-for="video in videoList"
+              v-bind="video">
+            </video-item>
+        </ul>
+      `
+    })
+
+    Vue.component('video-item', {
+      props:['poster', 'play', 'rank', 'title'],
+      template:`
+        <li class="video-item">
+          <a href="javascript:;">
+            <div class="item-poster">
+              <img :src="poster" :alt="title">
+              <div class="item-infor">
+                <div class="item-play" v-if="play">
+                  <span>{{play}}</span>
+                </div>
+                <div class="item-rank" v-if="rank"> 
+                  <span>{{rank}}</span>
+                </div>
+              </div>
+            </div>
+        
+            <div class="item-title">
+              {{title}}
+            </div>
+          </a>
+        </li>
+      `
+    })
+
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        videoList: []
+      },
+      created(){
+        axios.get("https://developer.duyiedu.com/vue/bz/video", {
+          params: {
+            start:0,
+            offset:12
+          }
+        }).then(res => {
+          this.videoList = res.data.data;
+        })
+      }
+    })
+  </script>
+</body>
+</html>

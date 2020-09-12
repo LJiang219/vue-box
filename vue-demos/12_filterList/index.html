@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./vue.js"></script>
+  <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+  <div id="app">
+    <div class="box">
+      <!-- v-for="item in 3" -->
+      <div class="goods clearfix" v-for="(goods, goodsIndex) in goodsList" :key="goods.id">
+        <div class="title">{{goods.title}}</div>
+        <ul class="type-list" >
+          <li v-for="(type, typeIndex) in goods.typeList" :key="typeIndex"
+          class="type" :class="{active: typeIndex == goods.index}"
+          @click="handleClick(typeIndex, goods, type, goodsIndex)"
+          >{{type}}</li>
+        </ul>
+      </div>
+
+
+      <div class="choose-type clearfix">
+        <div class="title">已选条件: </div>
+        <span  class="no-goods" v-if="isShow">暂时没有选择过滤条件</span>
+        <ul class="filter-list clearfix" v-else>
+          <li v-for="(item, itemKey) in filterObj" :key="itemKey">{{item}}
+            <span class="btn-delete" @click="handleDelete(itemKey)">x</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+
+  <script>
+    const vm = new Vue({
+      el: "#app",
+      data: {
+        goodsList: [
+          {
+            title: '上装',
+            typeList: ['全部', '针织衫', '毛呢外套', 'T恤', '羽绒服', '棉衣', '卫衣', '风衣' ],
+            id: 1,
+          },
+          {
+            title: '裤装',
+            typeList: ['全部', '牛仔裤', '小脚/铅笔裤', '休闲裤' ,'打底裤', '哈伦裤'],
+            id: 2,
+          },
+          {
+            title: '裙装',
+            typeList: ['全部', '连衣裙', '半身裙', '长袖连衣裙', '中长款连衣裙'],
+            id: 3,
+          }
+        ],
+        // filterList:[]
+        filterObj: {},
+        isShow:true
+      },
+      methods:{
+        handleClick: function(typeIndex, goods, type, goodsIndex){
+          //4.  
+          if(type === '全部') return;
+          //3. isShow
+          this.isShow = false;
+          //1. 被点击项目高亮
+          //如果在全局设置activeIndex:0, activeIndex==typeIdex, 会造成, 点击某一项, 对应的activeIndex的3项都会高亮
+          //这不是一个一维数组, 是一个二维的数组. 
+          //思路修正为: 在goodList中的每个goods(就是每个品类)添加index, 如果goods.index == typeIndex, 就高亮
+          goods.index = typeIndex;
+
+          //2. 将其添加到selectedArr
+          // this.filterList.push(type)
+          // 参考: https://cn.vuejs.org/v2/guide/reactivity.html#%E5%AF%B9%E4%BA%8E%E5%AF%B9%E8%B1%A1
+          // [关于数组]
+          //检测this.goodsList的变动 : this.goodsList就是定义在data上的数据 的正确方法
+          //vm.$set(vm.items, indexOfItem, newValue)
+          //vm.items.splice(indexOfItem, 1, newValue)
+          // vm.$set(this.filterList, goodsIndex, type);  // [empty × 2, "中长款连衣裙", __ob__: Observer]
+          // this.filterList.splice(goodsIndex, 1, type); // 添加新数据的时候, 会改变数组中原有index上的值
+          // console.log(this.filterList)
+          
+          //改变思路, 将 this.filerList 存储为一个对象 this.filterObj
+          //判断this.filterObj是否为空 ??? 
+         
+          vm.$set(this.filterObj, goodsIndex, type);
+
+          
+          
+        },
+        handleDelete: function(itemKey) {
+          //1, 原来品类上的项目失去高亮
+          //2. filterList更新
+          //3. 判断this.filterObj是否为空, 为空则重置this.isShow
+          // this.filterList.filter((it, idx) => itemIndex!==idx) 
+          this.goodsList[itemKey].index = 0; //原来品类上的项目失去高亮
+          this.$delete(this.filterObj, itemKey);
+          
+          //3
+          this.changeShowFilter();
+        },
+        changeShowFilter: function(){
+          const filterObjStr = JSON.stringify(this.filterObj);
+          this.isShow = filterObjStr == "{}"
+        }
+      }
+    })
+
+    //对于已经创建的实例，Vue 不允许动态添加[根级别]的响应式 property。 
+    //但是，可以使用 Vue.set(object, propertyName, value) 方法向嵌套对象添加响应式 property
+    //比如可以向 item添加一个属性index, item是this.goodsList上的每一项
+    vm.goodsList.forEach(item => vm.$set(item, "index", 0))
+    // console.log(vm)
+  </script>
+</body>
+</html>

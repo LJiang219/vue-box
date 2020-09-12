@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./assets/reset.css">
+  <link rel="stylesheet" href="./assets/index.css">
+  <script src="./axios.js"></script>
+  <script src="./vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <div class="header-box">
+      <div class="logo">
+        <a href="javascript:;" class="link-logo">
+          <img src="./images/logo_bilibili.png" alt="bilibili" class="img-logo">
+        </a>
+      </div>
+      <div class="search">
+        <img src="./images/search.png" alt="search" class="icon-sear">
+        <input type="text">  
+      </div>
+      <div class="avatar">
+        <img src="./images/noface.jpg" alt="avatar" class="icon-avatar">
+      </div>
+      <button class="btn-download">下载App</button>
+    </div>
+
+    <div class="nav-box">
+      <ul class="nav-scroll">
+        <li v-for="(nav,idx) in navList" :key="nav.id"
+        :class="{active: activeNavIdx === idx }" 
+        @click="chooseNav(idx)">
+          <a href="javascript:;">
+            <div>{{nav.title}}</div>
+          </a>
+        </li>
+        
+      </ul>
+      <div class="btn-down" @click="openNavBox" >
+        <img src="./images/arrow_down.png" alt="展开">
+      </div>
+    </div>
+
+    <div class="hide-nav-box hide" ref="hideNavBox">
+      <ul class="hide-nav clearfix">
+        <li v-for="(nav, idx) in navList" 
+          :class="{active: activeNavIdx === idx }"
+          @click="chooseNav(idx)">
+          <a href="javascript:;">{{nav.title}}</a>
+        </li>
+      </ul>
+      <div class="btn-up" @click="closeNavBox"><img src="./images/arrow_up.png" alt="收起"></div>
+    </div>
+
+    <div class="banner-box" ref="bannerbox">
+      <ul class="banner-list clearfix" ref="bannerList">
+        <li v-for="banner in bannerList" :key="banner.id">
+          <a href="javascript:;"><img :src="banner.poster" :alt="banner.title"></a>
+        </li>
+      </ul>
+      <ul class="dot-list">
+        <li v-for="dot in bannerList.length"><a href="javascript:;"></a></li>
+      </ul>
+    </div>
+
+    <div class="video-box">
+      <ul class="video-list clearfix">
+        <li class="video-item" v-for="video in videoList" :key="video.id">
+          <a href="javascript:;">
+            <div class="item-poster">
+              <img :src="video.poster" :alt="video.title" class="img-poster">
+              <div class="item-infor">
+                <img src="./images/icon_play.png" alt="play">
+                <span class="item-num">{{video.play}}</span>
+              </div>
+            </div>
+            <div class="item-title">{{video.title}}</div>
+          </a>
+          
+        </li>
+
+
+      </ul>
+
+    </div>
+
+    <div class="footer">
+      <p>哔哩哔哩 沪ICP备13002172号-3</p> 
+      <p>信息网络传播视听节目许可证：0910417</p>
+    </div>
+  </div>
+
+  <script>
+    const vm = new Vue({
+      el: "#app",
+      data:{
+        navList: [],
+        activeNavIdx:0,
+        bannerList: [],
+        videoList: [],
+        bannerWidth: 350,
+        bannerStyle: {
+          left:0,
+          transition:'left .3s'
+        }
+      },
+      methods:{
+        chooseNav: function(idx){
+          this.activeNavIdx = idx;
+        },
+        openNavBox: function(){
+  
+          let hideNavBox = this.$refs.hideNavBox;
+          hideNavBox.classList.remove('hide')
+          
+        },
+        closeNavBox: function(){
+          let hideNavBox = this.$refs.hideNavBox;
+          hideNavBox.classList.add('hide')
+        },
+        swiperBanner: function(){
+          let bannerList = this.$refs.bannerList;
+          let val = bannerList.offsetLeft;
+          // let timer = setInterval(() => {
+          //   val += -350;
+          //   if(val === -1050){
+          //     clearInterval(timers)
+          //   }
+          //   bannerList.style.left = val + 'px'
+          // }, 1000);
+
+          setTimeout(() => {
+            if(this.bannerActiveIndex === 0 ) {
+              this.bannerStyle.transition = 'left .3s';
+            }
+
+            this.bannnerActiveIndex++;
+            this.bannerStyle.left = -this.bannnerActiveIndex * this.bannerWidth + 'px';
+
+          }, 1500)
+        },
+
+      },
+      created(){
+        axios.get("https://developer.duyiedu.com/vue/bz/nav").then(res => {
+          // console.log(res);
+          if(res.status === 200){
+            this.navList = res.data.data;
+          }
+        });
+        axios.get("https://developer.duyiedu.com/vue/bz/banner").then(res => {
+          if(res.status === 200){
+            this.bannerList = res.data.data;
+          }
+        });
+        axios.get("https://developer.duyiedu.com/vue/bz/video?start=1&offset=5").then(res => {
+          if(res.status === 200){
+            this.videoList = res.data.data;
+          }
+        });
+        
+      },
+      mounted(){
+        this.swiperBanner();
+      }
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./vue.js"></script>
+  <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+  <div id="app">
+    <div class="counter-box">
+      <input type="text" v-model.number.lazy="num1">
+      <select class="sel" v-model="type">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="x">x</option>
+        <option value="/">/</option>
+      </select>
+      <input type="text" v-model.number.lazy="num2">
+      <button class="btn-res" @click="handleClick">=</button>
+      <span class="res">{{res}}</span>
+    </div>
+  </div>
+
+  <script>
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        num1: 0,
+        num2: 0,
+        type: '+',
+        res: 0
+      },
+      methods:{
+        handleClick: function(){
+   
+          const {type, num1, num2} = this;
+         
+          switch (type) {
+            case '+':
+              this.res = num1 + num2;
+              break;
+            case '-':
+              this.res = num1 - num2;
+              break;
+            case 'x':
+              this.res = num1 * num2;
+              break;
+            case '/':
+              this.res = num1 / num2;
+              break;
+
+          }
+         
+        }
+      }
+    })
+  </script>
+</body>
+</html>

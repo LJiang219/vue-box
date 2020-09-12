@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./vue.js"></script>
+  <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+  <div id="app">
+    <div class="wrap">
+      <div class="header">
+        <div class="left">toDoList</div>
+        <div class="right">
+          <input class="search" type="text" :value="inputTask.title" @input="handleInput($event)" />
+          <button class="btn-add" @click="addTask">添加</button>
+        </div>
+      </div>
+      <div class="container">
+        <div class="box box1">
+          <div class="title">
+            <div class="title-txt">正在进行</div>
+            <div class="counter">{{doingList.length}}</div>
+          </div>
+        
+          <ul class="list do-list">
+            <li v-for="(item, idx) in doingList" :key="item.key">
+              <!-- 选中"正在进行列表"中的checkbox, 该任务添加至"完成列表" -->
+              <!-- 点击"删除", 删除 -->
+              <input type="checkbox" name="checkbox" class="chk" @change="handleChange(idx, 'doing')" />
+              <span class="detail">{{item.title}}</span>
+              <button class="btn-delete" @click="handleDelete(idx, 'doing')">删除</button>
+            </li>
+          </ul>
+        </div>
+
+        <div class="box box2">
+          <div class="title">
+            <div class="title-txt">已经完成</div>
+            <div class="counter">{{finishedList.length}}</div>
+          </div>
+        
+          <ul class="list finished-list">
+            <!-- 选中"完成列表"中的checkbox, 该任务返回至"正在进行" -->
+            <!-- 点击"删除", 删除 -->
+            <li v-for="(item, idx) in finishedList" :key="item.id">
+              <input type="checkbox" name="checkbox" class="chk" @change="handleChange(idx, 'finished')"/>
+              <span class="detail">{{item.title}}</span>
+              <button class="btn-delete" @click="handleDelete(idx, 'finished')">删除</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const vm = new Vue({
+      el:'#app',
+      data:{
+        doingList:[],
+        finishedList:[],
+        inputTask:{
+          title: "",
+          key: Math.random()
+        }
+      },
+      methods:{
+        handleInput: function(e){
+          // console.log(e.currentTarget.value);
+          // this.inputTask.title = e.currentTarget.value; //不对 
+          //改变data中对象上的属性
+          this.$set(this.inputTask, 'title', e.currentTarget.value)
+           
+        },
+        addTask: function(){
+          // vm.$set(this.doingList, index, this.inputTask) ; //
+          
+          this.doingList.push(this.inputTask); //这是给list添加新的值
+         
+          //添加之后, 情况input
+          // this.inputTask.title = '';
+          // this.$set(this.inputTask, 'title', '')
+        },
+        handleChange: function(idx, type){
+          if(type == "doing"){
+            const finishedTask = this.doingList.splice(idx, 1); //删除
+            // this.finishedList.push(curTask); //????
+            this.finishedList.push(...finishedTask)
+          }else{
+            const unfinishedTask = this.finishedList.splice(idx, 1); //删除
+            this.doingList.push(...unfinishedTask)
+          }
+        },
+        handleDelete: function(idx, type){
+          let toDoList = type == 'doing' ? this.doingList : this.finishedList;
+          toDoList.splice(idx, 1)
+        }
+      }
+    })
+  </script>
+</body>
+</html>

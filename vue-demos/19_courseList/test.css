@@ -1,0 +1,124 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+ul,li{
+  list-style: none;
+}
+body{
+  background-color: #f80;
+}
+input[type=checkbox]{
+  cursor: pointer;
+}
+.course-box{
+  width: 750px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+.course-box .title {
+  display: inline-flex;
+  align-items: center;
+}
+.course-box .title .title-chk{
+  margin-right: 12px;
+}
+.course-box .title .title-txt{
+  font-size: 16px;
+  font-weight: bold;
+}
+.course-list{
+  padding-top: 20px;
+}
+.course-list li {
+  display: flex;
+  margin-bottom: 15px;
+}
+.course-box li .item-chk{
+  margin-right: 12px;
+  transform: translateY(32px);
+}
+
+.course-list li .poster img{
+  width: 80px;
+  height: 80px;
+}
+/* 使用去下的剩余空间flex-grow */
+.course-box li .right{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  flex-grow: 2; 
+
+  margin-left: 15px;
+  font-size: 14px;
+
+}
+.course-box li .right .course-name{
+  font-size: 14px;
+  margin-top: 8px;
+}
+.course-box li .right .item-bot{
+  display: flex;
+  justify-content: space-between;
+  
+}
+.course-box li .right .item-bot .course-price{
+  color: #f80;
+  height: 32px;
+  line-height: 32px;
+  
+}
+.course-box li .right .item-bot .item-btns{
+  display: inline-flex;
+  width: 100px;
+  height: 32px;
+  line-height: 32px;
+  
+}
+.course-box li .right .item-bot .item-btns .btn-minus,
+.course-box li .right .item-bot .item-btns .btn-add{
+  width: 30px;
+  border: 1px solid #eee;
+  text-align: center;
+  cursor: pointer;
+}
+.course-box li .right .item-bot .item-btns .item-count{
+  width: 60px;
+  border: 1px solid #eee;
+  text-align: center;
+}
+
+.course-box .sum-box{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.course-box .sum-box .sum-left {
+  display: inline-flex;
+  align-items: center;
+}
+.course-box .sum-box .sum-left .sum-chk{
+  margin-right: 12px;
+}
+
+.course-box .sum-box .sum-right .sum-price{
+  color: #f80;
+  margin-right: 10px;
+}
+.course-box .sum-box .sum-right .btn-sum{
+  width: 80px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  outline:none;
+  border: none;
+  border-radius: 30px;
+  background-color: #f80;
+  color: #fff;
+  font-size: 14px;
+}

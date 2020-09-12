@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./assets/reset.css">
+  <link rel="stylesheet" href="./assets/index.css">
+  <script src="./axios.js"></script>
+  <script src="./request.js"></script>
+  <script src="./vue.js"></script>
+</head>
+<body>
+  <div id="app" @scroll="handleScroll">
+    <div class="header-box">
+      <div class="logo">
+        <a href="javascript:;" class="link-logo">
+          <img src="./images/logo_bilibili.png" alt="bilibili" class="img-logo">
+        </a>
+      </div>
+      <div class="search">
+        <img src="./images/search.png" alt="search" class="icon-sear">
+        <input type="text">  
+      </div>
+      <div class="avatar">
+        <img src="./images/noface.jpg" alt="avatar" class="icon-avatar">
+      </div>
+      <button class="btn-download">下载App</button>
+    </div>
+    <template v-if="navList.length">
+      <div v-for="navBoxIdx in 2" 
+      :class="{'nav-box': navBoxIdx == 1, 'hide-nav-box':navBoxIdx==2, 'hide':navBoxIdx===2 && navHide}" >
+      <ul class="nav-list">
+        <li :class="{active: navActiveIdx==idx}" @click="selectNav(idx)"
+        v-for="(nav, idx) in navList" :key="nav.id">
+        <a href="javascript:;" :class="{'big':nav.title.length==3}">{{nav.title}}</a>
+      </li>
+      </ul>
+      <div v-if="navBoxIdx===1" class="arrow-down" @click="handleClick"><img src="./images/arrow_down.png" alt="down"></div>
+      <div v-else class="arrow-up" @click="handleClick"><img src="./images/arrow_up.png" alt="up"></div>
+      </div>
+    </template>
+   
+    <div class="banner-box" v-if="bannerList.length">
+      <ul 
+        class="banner-list" 
+        :style="bannerStyle"
+        @transitionend="handleTransitionend">
+        <li v-for="banner in bannerList" 
+            :key="banner.id">
+          <a href="javascript:;">
+            <img :src="banner.poster" :alt="banner.title">
+          </a>
+        </li>
+      </ul>
+      <ul class="dot-list">
+        <li v-for='index in bannerList.length - 1' 
+          :key="index"
+          :class="{active: index-1===bannerIdx % 3}">
+          <a href="javascript:;"></a>
+        </li>
+      </ul>
+    </div>
+
+    <template v-if="videoList.length">
+      <div class="video-box" >
+        <ul class="video-list clearfix">
+          <li class="video-item" v-for="video in videoList" :key="video.id">
+            <a href="javascript:;">
+              <div class="item-poster">
+                <img :src="video.poster" :alt="video.title">
+                <div class="item-infor">
+                  <div class="item-play" v-if="video.play">
+                    <img src="./images/icon_play.png" alt="play" />
+                    <span>{{video.play}}</span>
+                  </div>
+                  <div class="item-rank" v-if="video.rank">
+                    <img src="./images/icon_rank.png" alt="rank" />
+                    <span>{{video.rank}}</span>
+                  </div>
+                </div>
+              </div>
+           
+              <div class="item-title">
+                {{video.title}}
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+     
+
+    </template>
+
+    <div class="footer">
+      <p>哔哩哔哩 沪ICP备13002172号-3</p>
+      <p>信息网络传播视听节目许可证：0910417</p>
+    </div>
+</div>
+
+  <script>
+    const vm = new Vue({
+      el: "#app",
+      data:{
+        navList:[],
+        navHide:true,
+        navActiveIdx: 0,
+        bannerList:[],
+        videoOldList:[],
+        bannerWidth: 7,
+        bannerIdx:0,
+        bannerStyle: {
+          left: 0,
+          transition: 'left .3s'
+        },
+        curPage:0,
+        videoGettigData: false,
+        videoCount:0,
+      },
+      computed: {
+        videoList(){
+          return this.videoOldList.map(item => {
+            item.play = item.play > 10000 ? item.play / 10000 + '万' : item.play;
+            item.rank = item.rank > 10000 ? item.rank / 10000 + '万' : item.rank;
+            return item;
+          });
+   
+        }
+      },
+      methods:{
+        handleClick:function(){
+          this.navHide = !this.navHide;
+        },
+        selectNav: function(idx){
+          this.navActiveIdx = idx;
+        },
+        autoMove: function(){
+          
+          setTimeout(() => {
+              if(this.bannerIdx === 0){
+                this.bannerStyle.transition = 'left .3s'
+              }
+              this.bannerIdx++;
+              this.bannerStyle.left = -this.bannerIdx * this.bannerWidth +'rem'
+            }, 1500)
+          }, 
+        handleTransitionend: function(){
+         
+          if(this.bannerIdx == 3){
+            this.bannerIdx = 0;
+            this.bannerStyle.left = 0;
+            this.bannerStyle.transition = 'none';
+          }
+          this.autoMove()
+        },
+        handleScroll(e){
+          const {scrollHeight, offsetHeight, scrollTop } = e.target;
+          // console.log(scrollHeight, offsetHeight, scrollTop);
+          const toBottomHeight = scrollHeight - offsetHeight - scrollTop;
+          const videoLength = this.videoList.length;
+
+          if(toBottomHeight < 200 && !this.videoGettigData){
+            if(videoLength === this.videoCount){
+              return;
+            }
+            // console.log("xxxxx");
+            this.videoGettigData = true;
+            axios.get("https://developer.duyiedu.com/vue/bz/video", {
+              params:{
+                start: this.videoList.length,
+                offset: 12
+              }
+            }).then(res => {
+              if(res.status === 200){
+                this.videoOldList.push(...res.data.data)
+                // this.videoOldList = [...this.videoOldList, ...res.data.data];
+                this.videoGettigData = false;
+              }
+            });
+        
+          }
+        },
+
+        getData(){
+          axios.all([
+            axios.get('nav'),
+            axios.get('banner'),
+            axios.get('video', {
+              params:{
+                start:0,
+                offset: 12
+              }
+            })
+          ]).then(axios.spread((navRes, bannerRes,videoRes) => {
+            this.initNavList(navRes);
+            this.initBannerlist(bannerRes);
+            this.initVideo(videoRes);
+          }));
+
+        },
+        initNavList(navRes){
+          this.navList = navRes;
+        },
+        initBannerlist(bannerRes){
+          const bannerLastEle = {...bannerRes[0]};
+          bannerLastEle.id = Math.floor(Math.random() * 10000000);
+          this.bannerList = [...bannerRes, bannerLastEle]
+        },
+        initVideo(videoRes){
+          this.videoCount = videoRes.count;
+          this.videoOldList = videoRes.data;
+        }
+      
+      },
+      created(){
+        this.getData();
+
+        // axios.get("https://developer.duyiedu.com/vue/bz/nav").then(res => {
+        //   if(res.status === 200){
+        //     this.navList = res.data.data;
+        //   }
+        // });
+        // axios.get("https://developer.duyiedu.com/vue/bz/banner").then(res => {
+        //   if(res.status === 200){
+        //     this.bannerList = res.data.data;
+        //     let len = res.data.data.length;
+        //     // let lastBanner = res.data.data[0]; //所有的对象中id都做了math.random的计算
+        //     //这样写是得到的引用, 而不是数据, 应该用展开符合,得到数据, 把对象的值展开, 放到一个新的对象中
+        //     let lastBanner = {...res.data.data[0]}; //因为要给对象lastBanner更改属性,所以
+        //     // 需要使用
+        //     lastBanner.id = Math.floor(Math.random() * 10000000);
+        //     this.bannerList = [...this.bannerList, lastBanner];
+            
+        //   }
+        // });
+        // axios.get("https://developer.duyiedu.com/vue/bz/video", {
+        //   params:{
+        //     start: 0,
+        //     offset: 12
+        //   }
+        // }).then(res => {
+        //   if(res.status === 200){
+        //     this.videoOldList = res.data.data;
+        //     this.videoCount = res.data.count;
+        //   }
+        // });
+        
+      },
+      mounted(){
+        this.autoMove();
+      }
+    })
+  </script>
+</body>
+</html>

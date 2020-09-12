@@ -1,0 +1,19 @@
+
+.pager{
+
+}
+.pager-item{
+  display: inline-block;
+  padding: 5px;
+  color: #f80;
+  border: 1px solid #ddd;
+  margin: 8px 10px 0 0;
+  cursor: pointer;
+}
+.disabled{
+  color: #ddd;
+}
+
+.active{
+  color: rgb(0, 255, 42);
+}

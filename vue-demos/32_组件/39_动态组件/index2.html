@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>组件切换_is_component_计算属性</title>
+  <style>
+    .tab-button{
+      padding: 6px 10px;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      background-color: #f0f0f0;
+      margin-bottom: -1px;
+      margin-right: -1px;
+    }
+    .tab-button:hover{
+      background-color: #e0e0e0;
+    }
+    .tab-button.active{
+      background-color: #f80;
+    }
+    .tab-cont{
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+  </style>
+
+  <script src="../../vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <!-- <button>11111</button> -->
+    <button 
+      v-for="item in pages" 
+      :key="item.id" 
+      :class="['tab-button',{'active': currentTab===item.name}]"
+      @click="currentTab=item.name"
+      >{{item.name}}</button>
+
+    <component :is="currentPage" class="tab-cont"></component>
+  </div>
+
+  <script>
+    Vue.component('home-cmp', {
+      template:`<div>Home component</div>`
+    })
+    Vue.component('posts-cmp', {
+      template:`<div>Posts component</div>`
+    })
+    Vue.component('archive-cmp', {
+      template:`<div>Archive component</div>`
+    });
+
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        currentTab: 'Home',
+        pages: [
+          {name: 'Home', id: '0', content: 'Home component'},
+          {name: 'Posts', id: '1', content: 'Posts component'},
+          {name: 'Archive', id: '2', content: 'Archive component'},
+        ]
+      },
+      computed: {
+        currentPage() {
+          return this.currentTab.toLowerCase()+'-cmp'
+        }
+      },
+      methods: {
+
+      }
+    })
+  </script>
+</body>
+</html>
