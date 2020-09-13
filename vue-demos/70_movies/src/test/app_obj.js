@@ -1,6 +1,6 @@
 //根组件, 整个页面的内容靠该组件完成
-import MovieList from "./MovieList.js";
-import Pager from "./Pager.js";
+import MovieList from "../MovieList.js";
+import Pager from "../Pager.js";
 
 const template = `
   <div>

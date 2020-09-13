@@ -9,7 +9,7 @@
 //   }
 // }
 
-import movies from "../mockDatas.js";
+import movies from "./mockDatas.js";
 
 function getAllMovies(){
   return new Promise((resolve) => {
@@ -29,6 +29,15 @@ export default{
       datas: arr.slice((page - 1) * pageSize, page * pageSize)
       //不是splice
     }
+  },
+
+  // async getMovie(id) {
+  //   const datas = await fetch("http://api.myjson.com/").then(resp => resp.json());
+  //   return datas.find(item => item._id === id);
+  // }
+  async getMovie(id) {
+    const datas = await getAllMovies();
+    return datas.find(item => item._id == id)
   }
 }
   
